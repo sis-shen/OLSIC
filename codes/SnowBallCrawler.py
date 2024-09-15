@@ -41,10 +41,11 @@ class GZMaoTai:
 
         data_json = json.loads(response.text)  # Json反序列化
         items = data_json['data']['item']
-        print(items)
+        # for i in range(len(items)):
+        # print(items[i])
         # json数据对应
         # [0] timestamp
-        # [1] volume
+        # [1] 成交量
         # [2] 开盘价
         # [3] 最高价
         # [4] 最低价
@@ -52,7 +53,6 @@ class GZMaoTai:
         # [6] 涨跌额
         # [7] 涨跌幅
         # [8] 换手率
-        # [8] 成交量（手）
         # [9] 成交额(亿)
         # [10] null
         # [11] null
