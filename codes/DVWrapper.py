@@ -38,7 +38,7 @@ class DataTable:
             self.id = dpg.add_table(header_row=True, policy=dpg.mvTable_SizingFixedFit, row_background=True, reorderable=True,
                    resizable=True, no_host_extendX=False, hideable=True,
                    borders_innerV=True, delay_search=True, borders_outerV=True, borders_innerH=True,
-                   borders_outerH=True,height=300,tag=tag)
+                   borders_outerH=True,tag=tag)
 
             dpg.push_container_stack(self.id)
             for i in range(len(columns)):
@@ -47,10 +47,12 @@ class DataTable:
             dpg.pop_container_stack()
 
 
-    def updateData(self,items):
+    def clearData(self):
         # 先清除列表
         for item in dpg.get_item_children(self.id,1):
             dpg.delete_item(item)
+    def updateData(self,items):
+
         dpg.push_container_stack(self.id)
         row = 0
         for item in items:
@@ -89,7 +91,6 @@ class MenuBar():
             self.id = dpg.add_menu_bar(tag=tag)
 
     def add_item(self,label,tag,target,font):
-        print(f"new item: tag:{tag},target:{target}")
         self.children.append(MenuItem(self,label=label,tag=tag,target=target))
         child_id = self.children[-1].id
         dpg.bind_item_font(child_id,font)
@@ -111,7 +112,7 @@ class Button:
 class KPlot:
     def __init__(self):
         with dpg.stage():
-            with dpg.plot(label="日K图",tag='kplot',height=-1,width=-1,show=False) as self.id:
+            with dpg.plot(label="贵州茅台股票日K图",tag='kplot',height=-1,width=-1,show=False) as self.id:
                 dpg.add_plot_legend()
 
     def draw(self,fetch_data):
@@ -154,11 +155,23 @@ class KPlot:
 
         dpg.push_container_stack(self.id)
         dpg.add_plot_axis(dpg.mvXAxis,label="日期")
-        dpg.add_plot_axis(dpg.mvYAxis,label="成交量",tag="volume")
+        dpg.add_plot_axis(dpg.mvYAxis,label='开盘价',tag="open")
+        dpg.add_plot_axis(dpg.mvYAxis,label='换手率',tag="turnoverrate")
+        dpg.add_plot_axis(dpg.mvYAxis,label='交易额',tag="amount")
 
-        sid1 = dpg.add_line_series(xData,yDatas["volume"],parent="volume")
 
-        with dpg.tooltip(sid1,label='tool tip',tag="tool tip"):
+        s1id = dpg.add_line_series(xData,yDatas["volume"],parent="amount",label="成交量")
+        dpg.add_line_series(xData,yDatas["open"],parent='open',label="开盘价")
+        dpg.add_line_series(xData,yDatas["high"],parent='open',label="最高价")
+        dpg.add_line_series(xData,yDatas["low"],parent='open',label='最低价')
+        dpg.add_line_series(xData,yDatas["close"],parent='open',label='收盘价')
+        dpg.add_line_series(xData,yDatas["chg"],parent='turnoverrate',label='涨跌额')
+        dpg.add_line_series(xData,yDatas["percent"],parent='turnoverrate',label='涨跌幅')
+        dpg.add_line_series(xData,yDatas["turnoverrate"],parent='turnoverrate',label='换手率')
+        dpg.add_line_series(xData,yDatas["amount"],parent='amount',label='成交额')
+
+
+        with dpg.tooltip(s1id,label='tool tip',tag="tool tip"):
             dpg.add_text("Hover the plot",tag="volume tip")
 
 

@@ -28,7 +28,6 @@ class GZMaoTai:
 
     def get_response(self,date):
         nowtime = int(time.time() * 1000.0)
-        print(nowtime)
         param_data = {
             'symbol':'SH600519',
             'begin':str(nowtime),
@@ -37,10 +36,10 @@ class GZMaoTai:
             'count':'-284',
             'indicator':'kline,pe,pb,ps,pcf,market_capital,agt,ggt,balance'
         }
-
+        print("开始爬取数据")
         response = requests.get(self.url,headers=self.headers,params=param_data,timeout=5)
-
         print(response.text)
+        print("爬取成功，数据包如上")
 
         data_json = json.loads(response.text)  # Json反序列化
         items = data_json['data']['item']

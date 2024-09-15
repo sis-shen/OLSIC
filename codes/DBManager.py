@@ -15,6 +15,7 @@ stockDB = pymysql.Connect(
 def sendData(items):
     stockDB.ping(reconnect=True)
     cursor = stockDB.cursor()
+    print("开始向数据库插入数据")
     for item in items:
         sql=(f"insert into MaoTai values ({item[0]},"
              f"{item[1]},"
@@ -29,8 +30,7 @@ def sendData(items):
         # print(sql)
         cursor.execute(sql)
         # print(cursor.fetchall())
-
-    print("Data sended")
+    print(f"插入数据成功，总计{len(items)}")
 
 def getAllData(stockDB):
     stockDB.ping(reconnect=True)
@@ -43,7 +43,7 @@ def getLatestData():
     stockDB.ping(reconnect=True)
 
     cursor=stockDB.cursor()
-    sql="select * from MaoTai order by timesamp desc limit 30"
+    sql="select * from MaoTai order by timesamp desc"
     cursor.execute(sql)
     alldata = cursor.fetchall()
     resList = []
@@ -59,5 +59,6 @@ def clearDB():
 
     cursor = stockDB.cursor()
     sql='delete from MaoTai'
+    print("开始清理数据库")
     cursor.execute(sql)
-    print('data cleared')
+    print('清理完成')

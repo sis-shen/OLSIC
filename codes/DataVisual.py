@@ -14,7 +14,6 @@ def getTimestamp():
 dpg.create_context()
 
 def commonMenuCallback(sender,app_data,user_data):
-    print("commonMenuCallbackMenuCallback")
     user_data[0].hide_children()
     dpg.show_item(user_data[1].target)
 def DBclearCallback():
@@ -22,6 +21,7 @@ def DBclearCallback():
 
 def DBUpdateCallback(sender,app_data):
     dbm.clearDB()
+    my_table.clearData()
     dpg.set_item_label(sender,"数据更新中...")
     dpg.disable_item(sender)
     items = maotai.get_response(getTimestamp())
@@ -56,7 +56,6 @@ update_button.setcallback(DBUpdateCallback)
 
 kplot = KPlot()
 
-print(kplot.id)
 
 menubar = MenuBar()
 
@@ -99,7 +98,6 @@ main_win.submit()
 items = maotai.get_response(getTimestamp())
 
 fetch_data = dbm.getLatestData()
-print(fetch_data)
 my_table.updateData(fetch_data)
 kplot.draw(fetch_data)
 
