@@ -48,7 +48,9 @@ class DataTable:
 
 
     def updateData(self,items):
-
+        # 先清除列表
+        for item in dpg.get_item_children(self.id,1):
+            dpg.delete_item(item)
         dpg.push_container_stack(self.id)
         row = 0
         for item in items:

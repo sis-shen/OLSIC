@@ -1,6 +1,7 @@
 import requests
 import json
 from bs4 import  *
+import time
 
 class GZMaoTai:
     def __init__(self):
@@ -26,9 +27,11 @@ class GZMaoTai:
 
 
     def get_response(self,date):
+        nowtime = int(time.time() * 1000.0)
+        print(nowtime)
         param_data = {
             'symbol':'SH600519',
-            'begin':'1725790462909',
+            'begin':str(nowtime),
             'period':'day',
             'type':'before',
             'count':'-284',
