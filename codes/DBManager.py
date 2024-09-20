@@ -2,7 +2,7 @@ import pymysql
 
 
 stockDB = pymysql.Connect(
-    host='47.99.48.121',
+    host='127.0.0.1',
     port=3306,
     user='supdriver',
     password='',
